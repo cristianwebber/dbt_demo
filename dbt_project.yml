@@ -20,7 +20,11 @@ seeds:
 
 models:
   dbt_demo:
+    +schema: jaffle_shop
     staging:
       +materialized: view
     marts:
       +materialized: view
+
+vars:
+  "dbt_date:time_zone": "America/Los_Angeles"
