@@ -3,6 +3,9 @@ Welcome to your new dbt project!
 ### Using the starter project
 
 Try running the following commands:
+- pip install poetry
+- poetry install
+- jafgen 3
 - dbt run
 - dbt test
 
