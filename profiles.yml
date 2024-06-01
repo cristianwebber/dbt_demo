@@ -1,10 +1,13 @@
 dbt_demo:
-  target: dev
+  target: duckdb
   outputs:
-    dev:
+    bq:
       type: bigquery
       method: oauth
       project: "{{ env_var('GCP_PROJECT_ID') }}"
       dataset: "{{ env_var('DBT_DATASET_NAME') }}"
       job_execution_timeout_seconds: 300
       threads: 4
+    duckdb:
+      type: duckdb
+      path: 'target/demo_db.duckdb'

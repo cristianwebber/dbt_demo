@@ -1,13 +1,13 @@
 models:
   - name: customers
     description: Customer overview data mart, offering key details for each unique customer. One row per customer.
-    data_tests:
+    tests:
       - dbt_utils.expression_is_true:
           expression: "lifetime_spend_pretax + lifetime_tax_paid = lifetime_spend"
     columns:
       - name: customer_id
         description: The unique key of the orders mart.
-        data_tests:
+        tests:
           - not_null
           - unique
       - name: customer_name
@@ -26,7 +26,7 @@ models:
         description: The sum of all the order totals (including tax) that a customer has ever placed.
       - name: customer_type
         description: Options are 'new' or 'returning', indicating if a customer has ordered more than once or has only placed their first order to date.
-        data_tests:
+        tests:
           - accepted_values:
               values: ["new", "returning"]
 
@@ -67,40 +67,3 @@ semantic_models:
       - name: lifetime_spend
         agg: sum
         description: Gross customer lifetime spend inclusive of taxes.
-
-metrics:
-  - name: lifetime_spend_pretax
-    description: Customer's lifetime spend before tax
-    label: LTV Pre-tax
-    type: simple
-    type_params:
-      measure: lifetime_spend_pretax
-  - name: count_lifetime_orders
-    description: Count of lifetime orders
-    label: Count Lifetime Orders
-    type: simple
-    type_params:
-      measure: count_lifetime_orders
-  - name: average_order_value
-    description: LTV pre-tax / number of orders
-    label: Average Order Value
-    type: derived
-    type_params:
-      metrics:
-        - count_lifetime_orders
-        - lifetime_spend_pretax
-      expr: lifetime_spend_pretax / count_lifetime_orders
-
-saved_queries:
-  - name: customer_order_metrics
-    query_params:
-      metrics:
-        - count_lifetime_orders
-        - lifetime_spend_pretax
-        - average_order_value
-      group_by:
-        - Entity('customer')
-    exports:
-      - name: customer_order_metrics
-        config:
-          export_as: table

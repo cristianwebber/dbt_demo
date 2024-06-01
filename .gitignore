@@ -1,3 +1,5 @@
+__pycache__/
+.cache/
 target/
 dbt_packages/
 logs/

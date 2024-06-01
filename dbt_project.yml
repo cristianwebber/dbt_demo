@@ -19,6 +19,7 @@ seeds:
   +schema: jaffle_data
 
 models:
+  +start: Jan 1 2000
   dbt_demo:
     +schema: jaffle_shop
     staging:
